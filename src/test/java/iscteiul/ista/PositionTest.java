@@ -1,16 +1,18 @@
-package iscteiul.ista.battleship;
+package iscteiul.ista;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.*;
-import org.junit.jupiter.params.provider.*;
+import iscteiul.ista.battleship.Position;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PositionCompassTest
+public class PositionTest
 {
-//    private Position pos1;
-//    private Position pos2;
-
     @BeforeEach
     void setUp()
     {
@@ -23,46 +25,10 @@ public class PositionCompassTest
         //
     }
 
-    //  Compass Class Tests
-
-    @Test
-    void testCompassGetDirection() {
-        assertEquals('n', Compass.NORTH.getDirection());
-        assertEquals('s', Compass.SOUTH.getDirection());
-        assertEquals('e', Compass.EAST.getDirection());
-        assertEquals('o', Compass.WEST.getDirection());
-        assertEquals('u', Compass.UNKNOWN.getDirection());
-    }
-
-    @Test
-    void testCompassToString() {
-        assertEquals("n", Compass.NORTH.toString());
-        assertEquals("s", Compass.SOUTH.toString());
-        assertEquals("e", Compass.EAST.toString());
-        assertEquals("o", Compass.WEST.toString());
-        assertEquals("u", Compass.UNKNOWN.toString());
-    }
-
-    @ParameterizedTest
-    @ValueSource(chars = {'n', 's', 'e', 'o', 'u', 'z', 'a', 'b'})
-    void TestCharToCompass(char ch)
-    {
-        Compass expected = switch (ch) {
-            case 'n' -> Compass.NORTH;
-            case 's' -> Compass.SOUTH;
-            case 'e' -> Compass.EAST;
-            case 'o' -> Compass.WEST;
-            default  -> Compass.UNKNOWN;
-        };
-        assertEquals(expected, Compass.charToCompass(ch));
-    }
-
-    //  Position Class Tests
-
     @Test
     @DisplayName("Test constructor and getters")
     void testConstructorAndGetters() {
-        Position pos = new Position(2, 3);
+        Position pos = new Position( 2, 3);
         assertEquals(2, pos.getRow(), "Row should be 2");
         assertEquals(3, pos.getColumn(), "Column should be 3");
         assertFalse(pos.isOccupied(), "Position should not be occupied initially");
@@ -115,5 +81,4 @@ public class PositionCompassTest
         Position pos = new Position(5, 7);
         assertEquals("Linha = 5 Coluna = 7", pos.toString());
     }
-
 }
