@@ -1,9 +1,7 @@
-package iscteiul.ista;
+package iscteiul.ista.battleship;
 
 import static iscteiul.ista.battleship.Compass.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-import iscteiul.ista.battleship.*;
 
 import org.junit.jupiter.api.*;
 
@@ -125,18 +123,17 @@ public class ShipTest
 
     // Static factory tests
 
-//    @Test
-//    void testBuildShipValid() {
-//        Ship s = Ship.buildShip("barca", EAST, new Position(0,0));
-//        assertNotNull(s);
-//        assertEquals("barca", s.getCategory());
-//    }
-//
-//    @Test
-//    void testBuildShipInvalid() {
-//        Ship s = Ship.buildShip("unknownShipType", UNKNOWN, new Position(0,0));
-//        assertNull(s);
-//    }
+    @Test
+    void testBuildShipValid() {
+        Ship s = Ship.buildShip("barca", EAST, new Position(0,0));
+        assertNotNull(s);
+        assertEquals("Barca", s.getCategory());
+    }
 
-    //  Cannot perform tests of the factory method while it is package-private
+    @Test
+    void testBuildShipInvalid() {
+        Ship s = Ship.buildShip("unknownShipType", UNKNOWN, new Position(0,0));
+        assertNull(s);
+    }
+
 }
