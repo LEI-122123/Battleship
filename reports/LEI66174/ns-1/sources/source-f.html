@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IShip</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: IShip (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IShip</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Interface que define o contrato para qualquer Navio (IShip)** no jogo Batalha Naval.
+&nbsp; * Responsável por gerir as propriedades do navio (tamanho, categoria, posição, orientação)
+&nbsp; * e o seu estado (flutuando, atingido, afundado).
+&nbsp; *
+&nbsp; * @author [Seu Nome/Nome da Equipe, se aplicável]
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface IShip {
+&nbsp;    /**
+&nbsp;     * **Obtém a categoria (nome/tipo) deste navio.**
+&nbsp;     *
+&nbsp;     * @return A categoria do navio (ex: &quot;Nau&quot;, &quot;Fragata&quot;).
+&nbsp;     */
+&nbsp;    String getCategory();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o tamanho deste navio (o número de células que ocupa).**
+&nbsp;     *
+&nbsp;     * @return O tamanho inteiro do navio.
+&nbsp;     */
+&nbsp;    Integer getSize();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a lista de todas as posições (células) que este navio ocupa no tabuleiro.**
+&nbsp;     *
+&nbsp;     * @return Uma lista ({@code List&lt;IPosition&gt;}) das posições ocupadas.
+&nbsp;     */
+&nbsp;    List&lt;IPosition&gt; getPositions();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a posição inicial ou de referência (geralmente o canto superior/esquerdo) do navio.**
+&nbsp;     *
+&nbsp;     * @return A posição de referência ({@code IPosition}).
+&nbsp;     */
+&nbsp;    IPosition getPosition();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a orientação (bearing) deste navio.**
+&nbsp;     *
+&nbsp;     * @return A orientação ({@code Compass}) do navio (Norte, Sul, Leste, Oeste).
+&nbsp;     */
+&nbsp;    Compass getBearing();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se o navio ainda está a flutuar (ainda não foi afundado).**
+&nbsp;     * Um navio afunda quando todas as suas posições são atingidas.
+&nbsp;     *
+&nbsp;     * @return {@code true} se o navio ainda estiver flutuando; {@code false} caso contrário (afundado).
+&nbsp;     */
+&nbsp;    boolean stillFloating();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da linha mais alta (Top) ocupada pelo navio.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da linha mais alta.
+&nbsp;     */
+&nbsp;    int getTopMostPos();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da linha mais baixa (Bottom) ocupada pelo navio.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da linha mais baixa.
+&nbsp;     */
+&nbsp;    int getBottomMostPos();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da coluna mais à esquerda (Left) ocupada pelo navio.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da coluna mais à esquerda.
+&nbsp;     */
+&nbsp;    int getLeftMostPos();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da coluna mais à direita (Right) ocupada pelo navio.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da coluna mais à direita.
+&nbsp;     */
+&nbsp;    int getRightMostPos();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se o navio ocupa uma determinada posição.**
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) a ser verificada.
+&nbsp;     * @return {@code true} se o navio ocupar essa posição; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean occupies(IPosition pos);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se este navio está demasiado perto de outro navio.**
+&nbsp;     * Geralmente verifica se há adjacência entre as posições dos dois navios.
+&nbsp;     *
+&nbsp;     * @param other O outro navio ({@code IShip}) para comparação.
+&nbsp;     * @return {@code true} se estiverem demasiado próximos; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean tooCloseTo(IShip other);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se o navio está demasiado perto de uma posição específica.**
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) a ser verificada.
+&nbsp;     * @return {@code true} se o navio estiver demasiado próximo da posição; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean tooCloseTo(IPosition pos);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Marca uma posição específica do navio como atingida (shot).**
+&nbsp;     * Atualiza o estado da posição e o estado do navio.
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) onde o tiro acertou.
+&nbsp;     */
+&nbsp;    void shoot(IPosition pos);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-09 17:56</div>
+</div>
+</body>
+</html>
