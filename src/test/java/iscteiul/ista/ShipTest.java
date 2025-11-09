@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import iscteiul.ista.battleship.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 
 public class ShipTest
 {
@@ -19,95 +19,31 @@ public class ShipTest
         }
 
         @Override
-        public String getCategory()
-        {
-            return super.getCategory();
-        }
-
-        @Override
         public Integer getSize()
         {
-            return 0;
+            return 2;
         }
 
-        @Override
-        public List<IPosition> getPositions()
-        {
-            return super.getPositions();
-        }
-
-        @Override
-        public IPosition getPosition()
-        {
-            return super.getPosition();
-        }
-
-        @Override
-        public Compass getBearing()
-        {
-            return super.getBearing();
-        }
-
-        @Override
-        public boolean stillFloating()
-        {
-            return super.stillFloating();
-        }
-
-        @Override
-        public int getTopMostPos()
-        {
-            return super.getTopMostPos();
-        }
-
-        @Override
-        public int getBottomMostPos()
-        {
-            return super.getBottomMostPos();
-        }
-
-        @Override
-        public int getLeftMostPos()
-        {
-            return super.getLeftMostPos();
-        }
-
-        @Override
-        public int getRightMostPos()
-        {
-            return super.getRightMostPos();
-        }
-
-        @Override
-        public boolean occupies( IPosition pos )
-        {
-            return super.occupies( pos );
-        }
-
-        @Override
-        public boolean tooCloseTo( IShip other )
-        {
-            return super.tooCloseTo( other );
-        }
-
-        @Override
-        public boolean tooCloseTo( IPosition pos )
-        {
-            return super.tooCloseTo( pos );
-        }
-
-        @Override
-        public void shoot( IPosition pos )
-        {
-            super.shoot( pos );
-        }
     }
+
+    private DummyShip ship;
+    private Position pos1;
+    private Position pos2;
+
+    @BeforeEach
+    void setUp() {
+        pos1 = new Position(0, 0);
+        pos2 = new Position(0, 1);
+        ship = new DummyShip("dummy", NORTH, pos1);
+        ship.getPositions().add(pos1);
+        ship.getPositions().add(pos2);
+    }
+
+    // Abstract class behavior tests
 
     @Test
     void NullShip() {
-        final Ship validShip = new DummyShip( "other", UNKNOWN, new Position( 0, 0));
-
-        assertNotNull( validShip );
+        assertNotNull( ship );
 
         assertThrows(AssertionError.class, () -> {
             new DummyShip("other", null, new Position(0,0));
@@ -116,8 +52,66 @@ public class ShipTest
         assertThrows(AssertionError.class, () -> {
             new DummyShip("other", UNKNOWN, null);
         });
-
-        //assertTrue( invalidShip.getSize() > 0 );
     }
 
+    @Test
+    void testGetCategoryAndBearing() {
+        assertEquals("dummy", ship.getCategory());
+        assertEquals(NORTH, ship.getBearing());
+    }
+
+    @Test
+    void testGetPosition() {
+        assertEquals(pos1, ship.getPosition());
+    }
+
+    @Test
+    void testStillFloating() {
+        assertTrue(ship.stillFloating());
+        pos1.shoot();
+        pos2.shoot();
+        assertFalse(ship.stillFloating());
+    }
+
+    @Test
+    void testOccupiesAndTooCloseTo() {
+        assertTrue(ship.occupies(pos1));
+        assertFalse(ship.occupies(new Position(5, 5)));
+
+        // Adjacent positions
+        Position near = new Position(0, 2);
+        assertTrue(ship.tooCloseTo(near));
+    }
+
+    @Test
+    void testGetExtremes() {
+        assertEquals(0, ship.getTopMostPos());
+        assertEquals(0, ship.getBottomMostPos());
+        assertEquals(0, ship.getLeftMostPos());
+        assertEquals(1, ship.getRightMostPos());
+    }
+
+    @Test
+    void testShoot() {
+        ship.shoot(pos1);
+        assertTrue(pos1.isHit());
+        assertFalse(pos2.isHit());
+    }
+
+    // Static factory tests
+
+//    @Test
+//    void testBuildShipValid() {
+//        Ship s = Ship.buildShip("barca", EAST, new Position(0,0));
+//        assertNotNull(s);
+//        assertEquals("barca", s.getCategory());
+//    }
+//
+//    @Test
+//    void testBuildShipInvalid() {
+//        Ship s = Ship.buildShip("unknownShipType", UNKNOWN, new Position(0,0));
+//        assertNull(s);
+//    }
+
+    //  Cannot perform tests of the factory method while it is package-private
 }
