@@ -39,8 +39,10 @@ public class PositionTest
     @DisplayName("Test occupy and shoot methods")
     void testOccupyAndShoot() {
         Position pos = new Position(1, 1);
+        assertFalse(pos.isOccupied(), "Position should not be occupied before occupy()");
         pos.occupy();
         assertTrue(pos.isOccupied(), "Position should be occupied after occupy()");
+        assertFalse(pos.isHit(), "Position should not be hit before shoot()");
         pos.shoot();
         assertTrue(pos.isHit(), "Position should be hit after shoot()");
     }
@@ -51,7 +53,8 @@ public class PositionTest
             "0,0,1,1,true",
             "0,0,1,0,true",
             "0,0,2,2,false",
-            "3,3,4,5,false"
+            "3,3,4,5,false",
+            "0,0,3,0,false"
     })
     @DisplayName("Test adjacency between positions")
     void testIsAdjacentTo(int row1, int col1, int row2, int col2, boolean expected) {
@@ -65,14 +68,24 @@ public class PositionTest
     void testEqualsAndHashCode() {
         Position pos1 = new Position(2, 3);
         Position pos2 = new Position(2, 3);
-        Position pos3 = new Position(3, 2);
+        Position pos3 = new Position(3, 3);
+        Position pos4 = new Position(2, 2);
+        Position pos5 = new Position(4, 2);
 
-        // equals
+        // equals(Object otherPosition)
+        assertEquals( pos1, pos1, "Same object should just return true" );  //  this == otherPosition
         assertEquals(pos1, pos2, "Positions with same row and column should be equal");
-        assertNotEquals(pos1, pos3, "Positions with different row/column should not be equal");
+
+        assertNotEquals(pos1, pos3, "Positions with different row but same column should not be equal");
+        assertNotEquals(pos1, pos4, "Positions with same row but different column should not be equal");
+        assertNotEquals(pos1, pos5, "Positions with different row/column should not be equal");
+        assertNotEquals(pos1,null,  "A null passed should just return false" );
+        assertNotEquals(pos1 ,Boolean.FALSE, "A different object passed should just return false" );
 
         // hashCode
         assertEquals(pos1.hashCode(), pos2.hashCode(), "Hashcodes should match for equal positions");
+        pos2.shoot();
+        assertNotEquals(pos1.hashCode(), pos2.hashCode(), "Hashcodes should not match for equal positions but one is hit");
     }
 
     @Test
