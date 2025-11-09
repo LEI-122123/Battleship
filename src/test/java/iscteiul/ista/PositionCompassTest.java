@@ -25,13 +25,41 @@ public class PositionCompassTest
         //
     }
 
+    //  Compass Class Tests
+
+    @Test
+    void testCompassGetDirection() {
+        assertEquals('n', Compass.NORTH.getDirection());
+        assertEquals('s', Compass.SOUTH.getDirection());
+        assertEquals('e', Compass.EAST.getDirection());
+        assertEquals('o', Compass.WEST.getDirection());
+        assertEquals('u', Compass.UNKNOWN.getDirection());
+    }
+
+    @Test
+    void testCompassToString() {
+        assertEquals("n", Compass.NORTH.toString());
+        assertEquals("s", Compass.SOUTH.toString());
+        assertEquals("e", Compass.EAST.toString());
+        assertEquals("o", Compass.WEST.toString());
+        assertEquals("u", Compass.UNKNOWN.toString());
+    }
+
     @ParameterizedTest
     @ValueSource(chars = {'n', 's', 'e', 'o', 'u', 'z', 'a', 'b'})
     void TestCharToCompass(char ch)
     {
-        Compass a = charToCompass( ch);
-        assertTrue( a.ordinal() <= UNKNOWN.ordinal() );
+        Compass expected = switch (ch) {
+            case 'n' -> Compass.NORTH;
+            case 's' -> Compass.SOUTH;
+            case 'e' -> Compass.EAST;
+            case 'o' -> Compass.WEST;
+            default  -> Compass.UNKNOWN;
+        };
+        assertEquals(expected, Compass.charToCompass(ch));
     }
+
+    //  Position Class Tests
 
     @DisplayName( "Dummy shoot itself test" )
     @Test
