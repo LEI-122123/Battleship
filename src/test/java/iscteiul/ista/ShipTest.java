@@ -61,6 +61,7 @@ public class ShipTest
         });
     }
 
+    @DisplayName("Test Ship Category and Bearing")
     @Test
     void testGetCategoryAndBearing() {
         assertEquals("dummy", ship.getCategory());
@@ -72,6 +73,7 @@ public class ShipTest
         assertEquals(pos1, ship.getPosition());
     }
 
+    @DisplayName("Test Ship stillFloating() before and after shot positions")
     @Test
     void testStillFloating() {
         assertTrue(ship.stillFloating());
@@ -80,6 +82,7 @@ public class ShipTest
         assertFalse(ship.stillFloating());
     }
 
+    @DisplayName("Test Ship occupies positions")
     @Test
     void testOccupies()
     {
@@ -88,6 +91,7 @@ public class ShipTest
         assertFalse( ship.occupies( new Position( 5, 5 ) ) );
     }
 
+    @DisplayName("Test Ship tooCloseTo() overload methods")
     @Test
     void testTooCloseToPositionOrShip() {
         // Adjacent position
@@ -102,6 +106,7 @@ public class ShipTest
 
     }
 
+    @DisplayName("Check extremes methods")
     @Test
     void testGetExtremes() {
         assertEquals(0, ship.getTopMostPos());
@@ -110,6 +115,7 @@ public class ShipTest
         assertEquals(1, ship.getRightMostPos());
     }
 
+    @DisplayName("Dummy shoot itself test")
     @Test
     void testShoot() {
         ship.shoot(pos1);
