@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import iscteiul.ista.battleship.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 
 public class ShipTest
 {
@@ -39,8 +37,17 @@ public class ShipTest
         ship.getPositions().add(pos2);
     }
 
+    @AfterEach
+    void tearDown()
+    {
+        ship = null;
+        pos1 = null;
+        pos2 = null;
+    }
+
     // Abstract class behavior tests
 
+    @DisplayName("Test Ship Null Assertions")
     @Test
     void NullShip() {
         assertNotNull( ship );
@@ -74,13 +81,25 @@ public class ShipTest
     }
 
     @Test
-    void testOccupiesAndTooCloseTo() {
-        assertTrue(ship.occupies(pos1));
-        assertFalse(ship.occupies(new Position(5, 5)));
+    void testOccupies()
+    {
+        assertTrue( ship.occupies( pos1 ) );
+        assertTrue( ship.occupies( pos2 ) );
+        assertFalse( ship.occupies( new Position( 5, 5 ) ) );
+    }
 
-        // Adjacent positions
+    @Test
+    void testTooCloseToPositionOrShip() {
+        // Adjacent position
         Position near = new Position(0, 2);
         assertTrue(ship.tooCloseTo(near));
+
+        Position closeTo = new Position(1, 0);
+
+        DummyShip anotherShip = new DummyShip("another", NORTH, closeTo);
+        anotherShip.getPositions().add(closeTo);
+        assertTrue(ship.tooCloseTo(anotherShip));
+
     }
 
     @Test
