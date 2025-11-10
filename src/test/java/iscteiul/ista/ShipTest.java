@@ -4,6 +4,9 @@ import static iscteiul.ista.battleship.Compass.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ShipTest
 {
@@ -19,17 +22,29 @@ public class ShipTest
         {
             return 2;
         }
-
     }
 
-    private DummyShip ship;
+    static class SizeOneShip extends Ship
+    {
+        public SizeOneShip( String category, Compass bearing, IPosition pos )
+        {
+            super( category, bearing, pos );
+        }
+        @Override
+        public Integer getSize()
+        {
+            return 1;
+        }
+    }
+
+    private Ship ship;
     private Position pos1;
     private Position pos2;
 
     @BeforeEach
     void setUp() {
-        pos1 = new Position(0, 0);
-        pos2 = new Position(0, 1);
+        pos1 = new Position(0, 1);
+        pos2 = new Position(0, 2);
         ship = new DummyShip("dummy", NORTH, pos1);
         ship.getPositions().add(pos1);
         ship.getPositions().add(pos2);
@@ -74,16 +89,35 @@ public class ShipTest
     @DisplayName("Test Ship stillFloating() before and after shot positions")
     @Test
     void testStillFloating() {
+
+//        Ship anonShip = new Ship("Zero Size", NORTH, pos1) {
+//            @Override public Integer getSize() { return 0; }
+//        };
+//        assertFalse(anonShip.stillFloating());
+
         assertTrue(ship.stillFloating());
         pos1.shoot();
+        assertTrue(ship.stillFloating());
         pos2.shoot();
         assertFalse(ship.stillFloating());
     }
 
-    @DisplayName("Test Ship occupies positions")
+    @DisplayName("Test Ship occupies() positions")
     @Test
     void testOccupies()
     {
+        //  Assertion test
+        assertThrows( AssertionError.class, () ->
+        {
+            ship.occupies(null);
+        });
+
+        //  Size zero, never gets in for-loop
+//        Ship anonShip = new Ship("Zero Size", NORTH, pos1) {
+//                        @Override public Integer getSize() { return 0; }
+//        };
+//        assertFalse(anonShip.occupies(pos1));
+
         assertTrue( ship.occupies( pos1 ) );
         assertTrue( ship.occupies( pos2 ) );
         assertFalse( ship.occupies( new Position( 5, 5 ) ) );
@@ -92,16 +126,43 @@ public class ShipTest
     @DisplayName("Test Ship tooCloseTo() overload methods")
     @Test
     void testTooCloseToPositionOrShip() {
-        // Adjacent position
-        Position near = new Position(0, 2);
+
+        //  tooCloseTo IPosition
+
+//        This method does not assert null
+//        assertThrows( AssertionError.class, () ->
+//        {
+//            ship.tooCloseTo((IPosition) null);
+//        });
+
+        Position near = new Position(0, 0);
+        Position notNear = new Position(5, 5);
         assertTrue(ship.tooCloseTo(near));
+        assertFalse(ship.tooCloseTo(notNear));
 
-        Position closeTo = new Position(1, 0);
+        //  Zero-Sized ship
+//        Ship anonShip = new Ship("Zero Size", NORTH, pos1) {
+//            @Override public Integer getSize() { return 0; }
+//        };
+//        assertFalse(anonShip.tooCloseTo(near));
 
-        DummyShip anotherShip = new DummyShip("another", NORTH, closeTo);
-        anotherShip.getPositions().add(closeTo);
-        assertTrue(ship.tooCloseTo(anotherShip));
+        //  tooCloseTo IShip
 
+        assertThrows( AssertionError.class, () ->
+        {
+            ship.tooCloseTo((IShip) null);
+        });
+
+        Ship nearShip = new DummyShip("another", NORTH, near);
+        nearShip.getPositions().add(near);
+        assertTrue(ship.tooCloseTo(nearShip));
+
+        Ship notNearShip = new DummyShip("AndAnother", NORTH, notNear);
+        notNearShip.getPositions().add(notNear);
+        assertFalse(ship.tooCloseTo(notNearShip));
+
+        //  Zero-Sized ship
+        //  assertFalse(ship.tooCloseTo(anonShip));
     }
 
     @DisplayName("Check extremes methods")
@@ -109,25 +170,66 @@ public class ShipTest
     void testGetExtremes() {
         assertEquals(0, ship.getTopMostPos());
         assertEquals(0, ship.getBottomMostPos());
-        assertEquals(0, ship.getLeftMostPos());
-        assertEquals(1, ship.getRightMostPos());
+        assertEquals(1, ship.getLeftMostPos());
+        assertEquals(2, ship.getRightMostPos());
+
+        Ship otherShip = new DummyShip("another", EAST, new Position(1,0));
+        otherShip.getPositions().add(otherShip.getPosition());
+        otherShip.getPositions().add(new Position(2,0));
+
+        assertEquals(1, otherShip.getTopMostPos());
+        assertEquals(2, otherShip.getBottomMostPos());
+        assertEquals(0, otherShip.getLeftMostPos());
+        assertEquals(0, otherShip.getRightMostPos());
+
+        //  Not hitting for-loop test:
+        Ship size1ship = new SizeOneShip("Size One", EAST, new Position(0,0));
+        size1ship.getPositions().add(size1ship.getPosition());
+
+        assertEquals(0, size1ship.getTopMostPos());
+        assertEquals(0, size1ship.getBottomMostPos());
+        assertEquals(0, size1ship.getLeftMostPos());
+        assertEquals(0, size1ship.getRightMostPos());
+
     }
 
-    @DisplayName("Dummy shoot itself test")
+    @DisplayName("Dummy shoots itself test")
     @Test
     void testShoot() {
+
+        assertThrows( AssertionError.class, () ->
+        {
+            ship.shoot(null);
+        });
+
+        assertFalse(pos1.isHit());
         ship.shoot(pos1);
         assertTrue(pos1.isHit());
+
         assertFalse(pos2.isHit());
+        ship.shoot(pos2);
+        assertTrue(pos2.isHit());
     }
 
     // Static factory tests
 
-    @Test
-    void testBuildShipValid() {
-        Ship s = Ship.buildShip("barca", EAST, new Position(0,0));
+    @ParameterizedTest
+    @CsvSource({
+            "barca, Barca",
+            "caravela, Caravela",
+            "nau, Nau",
+            "fragata, Fragata",
+            "galeao, Galeao"
+    })
+    @DisplayName("Test possible Factory method outputs")
+    void testBuildShipValidOutputs(String shipkind, String expected)
+    {
+        Ship s = Ship.buildShip(shipkind, EAST, pos1);
         assertNotNull(s);
-        assertEquals("Barca", s.getCategory());
+        assertEquals(expected, s.getCategory());
+
+        assertEquals("[" + expected + " " + EAST + " " + "Linha = 0 Coluna = 1]", s.toString());
+
     }
 
     @Test
