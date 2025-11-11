@@ -179,8 +179,8 @@ public class ShipTest
         ship.getPositions().add(pos2);
         ship.getPositions().add(pos1);
 
-        assertEquals(1, ship.getLeftMostPos());
-        assertEquals(2, ship.getRightMostPos());
+        assertEquals(1, ship.getLeftMostPos(), "Should hit \"true\" on if statement inside for-loop");
+        assertEquals(2, ship.getRightMostPos(), "Should hit \"false\" on if statement inside for-loop and fall through");
 
         //
 
@@ -225,13 +225,13 @@ public class ShipTest
             ship.shoot(null);
         });
 
-        assertFalse(pos1.isHit());
+        assertFalse(pos1.isHit(), "pos1 is not hit yet");
         ship.shoot(pos1);
-        assertTrue(pos1.isHit());
+        assertTrue(pos1.isHit(), "pos1 is hit");
 
-        assertFalse(pos2.isHit());
+        assertFalse(pos2.isHit(), "pos2 is not hit yet");
         ship.shoot(pos2);
-        assertTrue(pos2.isHit());
+        assertTrue(pos2.isHit(), "pos2 is hit");
     }
 
     // Static factory tests
@@ -248,8 +248,8 @@ public class ShipTest
     void testBuildShipValidOutputs(String shipkind, String expected)
     {
         Ship s = Ship.buildShip(shipkind, EAST, pos1);
-        assertNotNull(s);
-        assertEquals(expected, s.getCategory());
+        assertNotNull(s, "Should be a valid ship, null is not expected");
+        assertEquals(expected, s.getCategory(), "Should match corresponding ship category");
 
         assertEquals("[" + expected + " " + EAST + " " + "Linha = 0 Coluna = 1]", s.toString());
 
@@ -258,7 +258,7 @@ public class ShipTest
     @Test
     void testBuildShipInvalid() {
         Ship s = Ship.buildShip("unknownShipType", UNKNOWN, new Position(0,0));
-        assertNull(s);
+        assertNull(s, "buildShip should return null for unknownShipType");
     }
 
 }
