@@ -1,0 +1,271 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Galleon</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: Galleon (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Galleon</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (4/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (9/27)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Galleon$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (4/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (10/28)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Representa um Galeão (Galleon)**, o maior navio de **tamanho 5** no jogo Batalha Naval.
+&nbsp; * O Galeão tem um formato não-linear (complexo/em forma de &#39;T&#39; ou &#39;cruz&#39;) e a sua
+&nbsp; * posição no tabuleiro depende diretamente dos métodos auxiliares de preenchimento
+&nbsp; * para cada direção cardeal.
+&nbsp; *
+&nbsp; * @author [Seu Nome/Nome da Equipe, se aplicável]
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;public class Galleon extends Ship {
+&nbsp;    /** O tamanho fixo do Galeão, que é 5. */
+<b class="fc">&nbsp;    private static final Integer SIZE = 5;</b>
+&nbsp;    /** O nome oficial da embarcação, &quot;Galeao&quot;. */
+&nbsp;    private static final String NAME = &quot;Galeao&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Cria uma nova instância de Galeão (Galleon).**
+&nbsp;     * Inicializa o Galeão com um nome, orientação e a posição inicial.
+&nbsp;     * Chama o método auxiliar apropriado ({@code fillNorth}, {@code fillSouth}, etc.)
+&nbsp;     * para definir as cinco posições que o navio ocupa, dependendo da orientação.
+&nbsp;     *
+&nbsp;     * @param bearing A orientação (Norte, Sul, Leste, Oeste) em que o galeão está a flutuar.
+&nbsp;     * @param pos     O ponto inicial (canto superior/esquerdo) para posicionar o Galeão no tabuleiro.
+&nbsp;     * @throws NullPointerException Se a orientação fornecida (bearing) for nula.
+&nbsp;     * @throws IllegalArgumentException Se a orientação fornecida for um valor inválido.
+&nbsp;     */
+&nbsp;    public Galleon(Compass bearing, IPosition pos) throws IllegalArgumentException {
+<b class="fc">&nbsp;        super(Galleon.NAME, bearing, pos);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (bearing == null)</b>
+<b class="nc">&nbsp;            throw new NullPointerException(&quot;ERROR! invalid bearing for the galleon&quot;);</b>
+&nbsp;
+<b class="pc">&nbsp;        switch (bearing) {</b>
+&nbsp;            case NORTH:
+<b class="nc">&nbsp;                fillNorth(pos);</b>
+&nbsp;                break;
+&nbsp;            case EAST:
+<b class="fc">&nbsp;                fillEast(pos);</b>
+&nbsp;                break;
+&nbsp;            case SOUTH:
+<b class="nc">&nbsp;                fillSouth(pos);</b>
+&nbsp;                break;
+&nbsp;            case WEST:
+<b class="nc">&nbsp;                fillWest(pos);</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;ERROR! invalid bearing for the galleon&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o tamanho do Galeão.**
+&nbsp;     *
+&nbsp;     * @return O tamanho do galeão (sempre 5).
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Integer getSize() {
+<b class="nc">&nbsp;        return Galleon.SIZE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Define as cinco posições que o Galeão ocupa, orientadas para Norte.**
+&nbsp;     * O formato é tipicamente uma linha horizontal superior de 3 células, com 2 células
+&nbsp;     * centradas verticalmente abaixo dela.
+&nbsp;     *
+&nbsp;     * @param pos A posição de referência (superior esquerda) do Galeão.
+&nbsp;     */
+&nbsp;    private void fillNorth(IPosition pos) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc">&nbsp;            getPositions().add(new Position(pos.getRow(), pos.getColumn() + i));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        getPositions().add(new Position(pos.getRow() + 1, pos.getColumn() + 1));</b>
+<b class="nc">&nbsp;        getPositions().add(new Position(pos.getRow() + 2, pos.getColumn() + 1));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Define as cinco posições que o Galeão ocupa, orientadas para Sul.**
+&nbsp;     * O formato preenchido pode ser uma linha vertical (2 células) e uma linha horizontal
+&nbsp;     * (3 células) conectadas na base.
+&nbsp;     *
+&nbsp;     * @param pos A posição de referência (superior esquerda) do Galeão.
+&nbsp;     */
+&nbsp;    private void fillSouth(IPosition pos) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc">&nbsp;            getPositions().add(new Position(pos.getRow() + i, pos.getColumn()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int j = 2; j &lt; 5; j++) {</b>
+<b class="nc">&nbsp;            getPositions().add(new Position(pos.getRow() + 2, pos.getColumn() + j - 3));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Define as cinco posições que o Galeão ocupa, orientadas para Este (Leste).**
+&nbsp;     *
+&nbsp;     * @param pos A posição de referência (superior esquerda) do Galeão.
+&nbsp;     */
+&nbsp;    private void fillEast(IPosition pos) {
+<b class="fc">&nbsp;        getPositions().add(new Position(pos.getRow(), pos.getColumn()));</b>
+<b class="fc">&nbsp;        for (int i = 1; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            getPositions().add(new Position(pos.getRow() + 1, pos.getColumn() + i - 3));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        getPositions().add(new Position(pos.getRow() + 2, pos.getColumn()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Define as cinco posições que o Galeão ocupa, orientadas para Oeste.**
+&nbsp;     *
+&nbsp;     * @param pos A posição de referência (superior esquerda) do Galeão.
+&nbsp;     */
+&nbsp;    private void fillWest(IPosition pos) {
+<b class="nc">&nbsp;        getPositions().add(new Position(pos.getRow(), pos.getColumn()));</b>
+<b class="nc">&nbsp;        for (int i = 1; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;            getPositions().add(new Position(pos.getRow() + 1, pos.getColumn() + i - 1));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        getPositions().add(new Position(pos.getRow() + 2, pos.getColumn()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-11 11:34</div>
+</div>
+</body>
+</html>
