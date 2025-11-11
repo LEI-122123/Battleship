@@ -21,6 +21,7 @@ public class CompassTest
     }
 
     @Test
+    @DisplayName( "test GetDirection() valid inputs" )
     void testCompassGetDirection() {
         assertEquals('n', Compass.NORTH.getDirection());
         assertEquals('s', Compass.SOUTH.getDirection());
@@ -30,6 +31,7 @@ public class CompassTest
     }
 
     @Test
+    @DisplayName( "test toString() expected outputs" )
     void testCompassToString() {
         assertEquals("n", Compass.NORTH.toString());
         assertEquals("s", Compass.SOUTH.toString());
@@ -40,6 +42,7 @@ public class CompassTest
 
     @ParameterizedTest
     @ValueSource(chars = {'n', 's', 'e', 'o', 'u', 'z', 'a', 'b'})
+    @DisplayName( "test charToCompass() expected outputs" )
     void TestCharToCompass(char ch)
     {
         Compass expected = switch (ch) {
