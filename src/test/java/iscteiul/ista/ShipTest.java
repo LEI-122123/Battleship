@@ -173,14 +173,37 @@ public class ShipTest
         assertEquals(1, ship.getLeftMostPos());
         assertEquals(2, ship.getRightMostPos());
 
-        Ship otherShip = new DummyShip("another", EAST, new Position(1,0));
+        ship.getPositions().remove(pos1);
+        ship.getPositions().remove(pos2);
+
+        ship.getPositions().add(pos2);
+        ship.getPositions().add(pos1);
+
+        assertEquals(1, ship.getLeftMostPos());
+        assertEquals(2, ship.getRightMostPos());
+
+        //
+
+        Position pos3 = new Position(1, 0);
+        Position pos4 = new Position(2, 0);
+
+        Ship otherShip = new DummyShip("another", EAST, pos4);
         otherShip.getPositions().add(otherShip.getPosition());
-        otherShip.getPositions().add(new Position(2,0));
+        otherShip.getPositions().add(pos3);
 
         assertEquals(1, otherShip.getTopMostPos());
         assertEquals(2, otherShip.getBottomMostPos());
         assertEquals(0, otherShip.getLeftMostPos());
         assertEquals(0, otherShip.getRightMostPos());
+
+        otherShip.getPositions().remove(pos3);
+        otherShip.getPositions().remove(pos4);
+
+        otherShip.getPositions().add(pos3);
+        otherShip.getPositions().add(pos4);
+
+        assertEquals(1, otherShip.getTopMostPos());
+        assertEquals(2, otherShip.getBottomMostPos());
 
         //  Not hitting for-loop test:
         Ship size1ship = new SizeOneShip("Size One", EAST, new Position(0,0));
