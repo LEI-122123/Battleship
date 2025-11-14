@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IPosition</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: IPosition (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IPosition</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Interface que define o contrato para uma Posição (IPosition) no tabuleiro** de Batalha Naval.
+&nbsp; * Representa uma célula individual e o seu estado (ocupada por um navio, atingida por um tiro).
+&nbsp; *
+&nbsp; * @author fba
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author fba
+&nbsp; */
+&nbsp;public interface IPosition {
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da linha (Row) desta posição.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da linha.
+&nbsp;     */
+&nbsp;    int getRow();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o índice da coluna (Column) desta posição.**
+&nbsp;     *
+&nbsp;     * @return O valor inteiro da coluna.
+&nbsp;     */
+&nbsp;    int getColumn();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Compara esta posição com outro objeto para verificar a igualdade.**
+&nbsp;     * Duas posições são consideradas iguais se tiverem a mesma linha e coluna.
+&nbsp;     *
+&nbsp;     * @param other O objeto a ser comparado.
+&nbsp;     * @return {@code true} se o objeto for uma {@code IPosition} com as mesmas coordenadas; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean equals(Object other);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se esta posição é adjacente (vizinha) a outra posição.**
+&nbsp;     * Adjacência pode ser definida como estar na mesma linha ou coluna e a uma distância de 1.
+&nbsp;     *
+&nbsp;     * @param other A outra posição ({@code IPosition}) para comparação.
+&nbsp;     * @return {@code true} se as posições forem adjacentes; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean isAdjacentTo(IPosition other);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Marca esta posição como ocupada por um navio.**
+&nbsp;     *
+&nbsp;     * @throws IllegalStateException Se a posição já estiver ocupada.
+&nbsp;     */
+&nbsp;    void occupy();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Marca esta posição como atingida por um tiro.**
+&nbsp;     * Normalmente é chamado quando um navio é atingido nesta célula.
+&nbsp;     *
+&nbsp;     * @throws IllegalStateException Se a posição já tiver sido atingida.
+&nbsp;     */
+&nbsp;    void shoot();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se esta posição está ocupada por alguma parte de um navio.**
+&nbsp;     *
+&nbsp;     * @return {@code true} se a posição estiver ocupada; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean isOccupied();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se esta posição foi atingida por um tiro.**
+&nbsp;     *
+&nbsp;     * @return {@code true} se a posição foi atingida; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean isHit();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-11 12:08</div>
+</div>
+</body>
+</html>
