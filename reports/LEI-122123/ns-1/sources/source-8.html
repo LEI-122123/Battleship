@@ -1,0 +1,332 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Game</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: Game (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Representa o Jogo (Game) de Batalha Naval.**
+&nbsp; * Esta classe é responsável por gerir o estado do jogo, registar os tiros
+&nbsp; * (shots) efetuados, verificar acertos (hits) e afundamentos (sinks),
+&nbsp; * e acompanhar as estatísticas do jogo (tiros inválidos, repetidos, etc.).
+&nbsp; * Implementa a interface {@code IGame}.
+&nbsp; *
+&nbsp; * @author fba
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author fba
+&nbsp; */
+&nbsp;public class Game implements IGame {
+&nbsp;    /** A frota de navios associada a este jogo. */
+&nbsp;    private IFleet fleet;
+&nbsp;    /** Lista das posições onde foram efetuados tiros válidos e não repetidos. */
+&nbsp;    private List&lt;IPosition&gt; shots;
+&nbsp;
+&nbsp;    /** Contador de tiros que caíram fora do tabuleiro (inválidos). */
+&nbsp;    private Integer countInvalidShots;
+&nbsp;    /** Contador de tiros que caíram em posições já atingidas (repetidos). */
+&nbsp;    private Integer countRepeatedShots;
+&nbsp;    /** Contador de tiros que acertaram efetivamente um navio (hits). */
+&nbsp;    private Integer countHits;
+&nbsp;    /** Contador de navios que foram afundados (sinks). */
+&nbsp;    private Integer countSinks;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Cria uma nova instância do Jogo (Game).**
+&nbsp;     * Inicializa o jogo com uma frota de navios e define os contadores de estatísticas a zero.
+&nbsp;     *
+&nbsp;     * @param fleet A frota ({@code IFleet}) a ser utilizada no jogo.
+&nbsp;     */
+<b class="nc">&nbsp;    public Game(IFleet fleet) {</b>
+<b class="nc">&nbsp;        shots = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        countInvalidShots = 0;</b>
+<b class="nc">&nbsp;        countRepeatedShots = 0;</b>
+<b class="nc">&nbsp;        countHits = 0; // Inicializar contadores que faltavam</b>
+<b class="nc">&nbsp;        countSinks = 0;</b>
+<b class="nc">&nbsp;        this.fleet = fleet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Executa um tiro numa determinada posição do tabuleiro.**
+&nbsp;     * Atualiza as estatísticas do jogo.
+&nbsp;     * Se o tiro for válido e não repetido, verifica se atinge um navio.
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) onde o tiro é efetuado.
+&nbsp;     * @return O navio ({@code IShip}) que foi afundado por este tiro, ou {@code null} se o navio não foi afundado
+&nbsp;     * ou se não houve acerto (miss).
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public IShip fire(IPosition pos) {
+<b class="nc">&nbsp;        if (!validShot(pos))</b>
+<b class="nc">&nbsp;            countInvalidShots++;</b>
+&nbsp;        else { // valid shot!
+<b class="nc">&nbsp;            if (repeatedShot(pos))</b>
+<b class="nc">&nbsp;                countRepeatedShots++;</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                shots.add(pos);</b>
+<b class="nc">&nbsp;                IShip s = fleet.shipAt(pos);</b>
+<b class="nc">&nbsp;                if (s != null) {</b>
+<b class="nc">&nbsp;                    s.shoot(pos);</b>
+<b class="nc">&nbsp;                    countHits++;</b>
+<b class="nc">&nbsp;                    if (!s.stillFloating()) {</b>
+<b class="nc">&nbsp;                        countSinks++;</b>
+<b class="nc">&nbsp;                        return s;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a lista de todas as posições onde foram efetuados tiros válidos e não repetidos.**
+&nbsp;     *
+&nbsp;     * @return A lista ({@code List&lt;IPosition&gt;}) dos tiros efetuados.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;IPosition&gt; getShots() {
+<b class="nc">&nbsp;        return shots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de tiros repetidos efetuados.**
+&nbsp;     *
+&nbsp;     * @return O número de tiros repetidos.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getRepeatedShots() {
+<b class="nc">&nbsp;        return this.countRepeatedShots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de tiros inválidos (fora do tabuleiro) efetuados.**
+&nbsp;     *
+&nbsp;     * @return O número de tiros inválidos.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getInvalidShots() {
+<b class="nc">&nbsp;        return this.countInvalidShots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de acertos (hits) efetuados em navios.**
+&nbsp;     *
+&nbsp;     * @return O número de acertos.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getHits() {
+<b class="nc">&nbsp;        return this.countHits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de navios que foram afundados (sunk ships).**
+&nbsp;     *
+&nbsp;     * @return O número de navios afundados.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getSunkShips() {
+<b class="nc">&nbsp;        return this.countSinks;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número de navios que ainda estão a flutuar (não afundados).**
+&nbsp;     *
+&nbsp;     * @return O número de navios restantes.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getRemainingShips() {
+<b class="nc">&nbsp;        List&lt;IShip&gt; floatingShips = fleet.getFloatingShips();</b>
+<b class="nc">&nbsp;        return floatingShips.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se uma determinada posição de tiro está dentro dos limites do tabuleiro.**
+&nbsp;     * Assume-se que {@code Fleet.BOARD_SIZE} define o tamanho do tabuleiro.
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) a ser verificada.
+&nbsp;     * @return {@code true} se o tiro for válido (dentro do tabuleiro); {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    private boolean validShot(IPosition pos) {
+<b class="nc">&nbsp;        return (pos.getRow() &gt;= 0 &amp;&amp; pos.getRow() &lt;= Fleet.BOARD_SIZE &amp;&amp; pos.getColumn() &gt;= 0</b>
+<b class="nc">&nbsp;                &amp;&amp; pos.getColumn() &lt;= Fleet.BOARD_SIZE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se um tiro numa determinada posição já foi efetuado anteriormente.**
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) a ser verificada.
+&nbsp;     * @return {@code true} se o tiro for repetido; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    private boolean repeatedShot(IPosition pos) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; shots.size(); i++)</b>
+<b class="nc">&nbsp;            if (shots.get(i).equals(pos))</b>
+<b class="nc">&nbsp;                return true;</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime no console a representação visual do tabuleiro com posições marcadas.**
+&nbsp;     * O tabuleiro é construído com base numa lista de posições e um marcador específico.
+&nbsp;     *
+&nbsp;     * @param positions A lista de posições (tiros, navios, etc.) a marcar no tabuleiro.
+&nbsp;     * @param marker O caractere usado para marcar as posições (ex: &#39;X&#39;, &#39;#&#39;).
+&nbsp;     */
+&nbsp;    public void printBoard(List&lt;IPosition&gt; positions, Character marker) {
+<b class="nc">&nbsp;        char[][] map = new char[Fleet.BOARD_SIZE][Fleet.BOARD_SIZE];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int r = 0; r &lt; Fleet.BOARD_SIZE; r++)</b>
+<b class="nc">&nbsp;            for (int c = 0; c &lt; Fleet.BOARD_SIZE; c++)</b>
+<b class="nc">&nbsp;                map[r][c] = &#39;.&#39;; // Inicializa o tabuleiro com &#39;.&#39;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (IPosition pos : positions)</b>
+<b class="nc">&nbsp;            map[pos.getRow()][pos.getColumn()] = marker; // Marca as posições fornecidas</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int row = 0; row &lt; Fleet.BOARD_SIZE; row++) {</b>
+<b class="nc">&nbsp;            for (int col = 0; col &lt; Fleet.BOARD_SIZE; col++)</b>
+<b class="nc">&nbsp;                System.out.print(map[row][col]);</b>
+<b class="nc">&nbsp;            System.out.println(); // Nova linha no final de cada linha do tabuleiro</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime no console o tabuleiro mostrando apenas os tiros válidos que foram efetuados.**
+&nbsp;     * Os tiros são marcados com &#39;X&#39;.
+&nbsp;     */
+&nbsp;    public void printValidShots() {
+<b class="nc">&nbsp;        printBoard(getShots(), &#39;X&#39;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime no console o tabuleiro mostrando a posição atual de todos os navios da frota.**
+&nbsp;     * Os navios são marcados com &#39;#&#39;.
+&nbsp;     */
+&nbsp;    public void printFleet() {
+<b class="nc">&nbsp;        List&lt;IPosition&gt; shipPositions = new ArrayList&lt;IPosition&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (IShip s : fleet.getShips())</b>
+<b class="nc">&nbsp;            shipPositions.addAll(s.getPositions());</b>
+&nbsp;
+<b class="nc">&nbsp;        printBoard(shipPositions, &#39;#&#39;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-14 22:58</div>
+</div>
+</body>
+</html>
