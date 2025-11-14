@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IGame</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: IGame (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IGame</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Interface que define o contrato para a gestão da lógica do Jogo (Game)** de Batalha Naval.
+&nbsp; * Responsável por gerir os tiros, o registo de acertos, afundamentos e o estado geral do tabuleiro.
+&nbsp; *
+&nbsp; * @author [Seu Nome/Nome da Equipe, se aplicável]
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface IGame {
+&nbsp;    /**
+&nbsp;     * **Executa um tiro numa determinada posição do tabuleiro.**
+&nbsp;     * Este é o método principal para interagir com o jogo.
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) onde o tiro é efetuado.
+&nbsp;     * @return O navio ({@code IShip}) que foi afundado por este tiro, ou {@code null} se o navio
+&nbsp;     * não foi afundado (foi um acerto não final, um tiro na água, inválido ou repetido).
+&nbsp;     */
+&nbsp;    IShip fire(IPosition pos);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a lista de todas as posições onde foram efetuados tiros válidos e não repetidos.**
+&nbsp;     *
+&nbsp;     * @return A lista ({@code List&lt;IPosition&gt;}) dos tiros efetuados.
+&nbsp;     */
+&nbsp;    List&lt;IPosition&gt; getShots();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de tiros repetidos efetuados.**
+&nbsp;     *
+&nbsp;     * @return O número de tiros repetidos.
+&nbsp;     */
+&nbsp;    int getRepeatedShots();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de tiros inválidos (fora do tabuleiro) efetuados.**
+&nbsp;     *
+&nbsp;     * @return O número de tiros inválidos.
+&nbsp;     */
+&nbsp;    int getInvalidShots();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de acertos (hits) efetuados em navios.**
+&nbsp;     *
+&nbsp;     * @return O número de acertos.
+&nbsp;     */
+&nbsp;    int getHits();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número total de navios que foram afundados (sunk ships).**
+&nbsp;     *
+&nbsp;     * @return O número de navios afundados.
+&nbsp;     */
+&nbsp;    int getSunkShips();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém o número de navios que ainda estão a flutuar (não afundados).**
+&nbsp;     *
+&nbsp;     * @return O número de navios restantes.
+&nbsp;     */
+&nbsp;    int getRemainingShips();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime no console o tabuleiro mostrando os tiros válidos que foram efetuados.**
+&nbsp;     */
+&nbsp;    void printValidShots();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime no console o tabuleiro mostrando a posição atual de todos os navios da frota.**
+&nbsp;     */
+&nbsp;    void printFleet();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-09 17:56</div>
+</div>
+</body>
+</html>
