@@ -1,34 +1,38 @@
-/**
- * Test class for class Frigate.
- * Author: ${user.name}
- * Date: 2025-11-14 12:00
- *
- * Cyclomatic Complexity:
- * - constructor: 5
- * - getSize(): 1
- */
-
 package iscteiul.ista.battleship;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+/**
+ * Test class for class Frigate.
+ * Author: [user.name]
+ * Date: 2025-11-14 21:00
+ *
+ * Cyclomatic Complexity:
+ * - constructor: 5 (Cobre 5 caminhos: null, NORTH/SOUTH, EAST/WEST, UNKNOWN)
+ * - getSize(): 1
+ */
+@DisplayName("Testes Unitários para a Fragata (Frigate - Tamanho 4)")
 public class FrigateTest {
 
     private Frigate frigate;
+    // Posição inicial de referência para testes: Linha 5, Coluna 5
+    private final IPosition START_POS = new Position(5, 5);
 
-    /** Creates a default Frigate before each test. */
+    /** Configuração antes de cada teste (se necessário). */
     @BeforeEach
     public void setUp() {
-        frigate = new Frigate(Compass.NORTH, new Position(0, 0));
+        // Inicialização feita nos testes aninhados, conforme o Compass.
     }
 
-    /** Cleans up after each test. */
+    /** Limpeza após cada teste. */
     @AfterEach
     public void tearDown() {
         frigate = null;
@@ -38,93 +42,131 @@ public class FrigateTest {
     // =============== TESTS FOR CONSTRUCTOR (CC = 5) ==========
     // =========================================================
 
-    /**
-     * constructor1() – Test NORTH orientation.
-     */
-    @Test
-    public void constructor1() {
-        Frigate f = new Frigate(Compass.NORTH, new Position(2, 5));
+    @Nested
+    @DisplayName("Construtor: Frigate(Compass, IPosition) [CC=5]")
+    class ConstructorTests {
 
-        List<IPosition> pos = f.getPositions();
-        assertAll("NORTH orientation positions",
-                () -> assertEquals(4, pos.size(), "Error: expected 4 positions but got " + pos.size()),
-                () -> assertEquals(2, pos.get(0).getRow(), "Error: incorrect row for NORTH r0"),
-                () -> assertEquals(5, pos.get(0).getColumn(), "Error: incorrect column for NORTH c0"),
-                () -> assertEquals(3, pos.get(1).getRow(), "Error: incorrect row for NORTH r1"),
-                () -> assertEquals(4, pos.get(2).getRow(), "Error: incorrect row for NORTH r2"),
-                () -> assertEquals(5, pos.get(3).getRow(), "Error: incorrect row for NORTH r3")
-        );
-    }
+        /**
+         * Caminho 1/5: Testa o path de bearing nulo.
+         * Cobre a condição que verifica se o bearing é nulo (tratado na superclasse Ship),
+         * que lança um AssertionError (conforme observado nos logs).
+         */
+        @Test
+        @DisplayName("Frigate1(): Deve lançar AssertionError se bearing for null (caminho 1/5)")
+        void frigate1() {
+            assertThrows(AssertionError.class,
+                    () -> new Frigate(null, START_POS),
+                    "Caminho 1/5: Esperava AssertionError para bearing nulo (proveniente de Ship).");
+        }
 
-    /**
-     * constructor2() – Test SOUTH orientation.
-     */
-    @Test
-    public void constructor2() {
-        Frigate f = new Frigate(Compass.SOUTH, new Position(1, 3));
+        /**
+         * Caminho 2/5: Test NORTH orientation. Cobre o case NORTH/SOUTH. (Vertical)
+         * Esperado: (5,5), (6,5), (7,5), (8,5)
+         */
+        @Test
+        @DisplayName("Frigate2(): Criação orientada a NORTH (Verifica posições verticais - caminho 2/5)")
+        void frigate2() {
+            frigate = new Frigate(Compass.NORTH, START_POS);
 
-        List<IPosition> pos = f.getPositions();
-        assertAll("SOUTH orientation positions",
-                () -> assertEquals(4, pos.size(), "Error: expected 4 positions but got " + pos.size()),
-                () -> assertEquals(1, pos.get(0).getRow(), "Error: incorrect row r0 for SOUTH"),
-                () -> assertEquals(3, pos.get(0).getColumn(), "Error: incorrect column c0 for SOUTH"),
-                () -> assertEquals(2, pos.get(1).getRow(), "Error: incorrect row r1 for SOUTH")
-        );
-    }
+            List<IPosition> pos = frigate.getPositions();
+            assertAll("Verificação de posições NORTH",
+                    () -> assertEquals(4, pos.size(), "Erro: esperado 4 posições."),
+                    // R0: (5, 5) -> Posição inicial
+                    () -> assertEquals(5, pos.get(0).getRow(), "R0 deve ser 5"),
+                    () -> assertEquals(5, pos.get(0).getColumn(), "C0 deve ser 5"),
+                    // R3: (8, 5) -> Última posição
+                    () -> assertEquals(8, pos.get(3).getRow(), "R3 deve ser 8"),
+                    () -> assertEquals(5, pos.get(3).getColumn(), "C3 deve ser 5")
+            );
+        }
 
-    /**
-     * constructor3() – Test EAST orientation.
-     */
-    @Test
-    public void constructor3() {
-        Frigate f = new Frigate(Compass.EAST, new Position(4, 2));
+        /**
+         * Caminho 3/5: Test SOUTH orientation. Cobre o case NORTH/SOUTH. (Vertical)
+         * Esperado: (5,5), (6,5), (7,5), (8,5)
+         */
+        @Test
+        @DisplayName("Frigate3(): Criação orientada a SOUTH (Verifica posições verticais - caminho 3/5)")
+        void frigate3() {
+            frigate = new Frigate(Compass.SOUTH, START_POS);
 
-        List<IPosition> pos = f.getPositions();
-        assertAll("EAST orientation positions",
-                () -> assertEquals(4, pos.size(), "Error: expected 4 positions but got " + pos.size()),
-                () -> assertEquals(4, pos.get(0).getRow(), "Error: incorrect row r0 for EAST"),
-                () -> assertEquals(2, pos.get(0).getColumn(), "Error: incorrect column c0 for EAST"),
-                () -> assertEquals(3, pos.get(1).getColumn(), "Error: incorrect column c1 for EAST")
-        );
-    }
+            List<IPosition> pos = frigate.getPositions();
+            assertAll("Verificação de posições SOUTH",
+                    () -> assertEquals(4, pos.size(), "Erro: esperado 4 posições."),
+                    // R0: (5, 5) -> Posição inicial
+                    () -> assertEquals(5, pos.get(0).getRow(), "R0 deve ser 5"),
+                    () -> assertEquals(5, pos.get(0).getColumn(), "C0 deve ser 5"),
+                    // R3: (8, 5) -> Última posição
+                    () -> assertEquals(8, pos.get(3).getRow(), "R3 deve ser 8")
+            );
+        }
 
-    /**
-     * constructor4() – Test WEST orientation.
-     */
-    @Test
-    public void constructor4() {
-        Frigate f = new Frigate(Compass.WEST, new Position(7, 7));
+        /**
+         * Caminho 4/5: Test EAST orientation. Cobre o case EAST/WEST. (Horizontal)
+         * Esperado: (5,5), (5,6), (5,7), (5,8). Note que a linha (row) é constante.
+         */
+        @Test
+        @DisplayName("Frigate4(): Criação orientada a EAST (Verifica posições horizontais - caminho 4/5)")
+        void frigate4() {
+            frigate = new Frigate(Compass.EAST, START_POS);
 
-        List<IPosition> pos = f.getPositions();
-        assertAll("WEST orientation positions",
-                () -> assertEquals(4, pos.size(), "Error: expected 4 positions but got " + pos.size()),
-                () -> assertEquals(7, pos.get(0).getRow(), "Error: incorrect row r0 for WEST"),
-                () -> assertEquals(7, pos.get(0).getColumn(), "Error: incorrect column c0 for WEST"),
-                () -> assertEquals(8, pos.get(1).getColumn(), "Error: expected col=8 but got " + pos.get(1).getColumn())
-        );
-    }
+            List<IPosition> pos = frigate.getPositions();
+            assertAll("Verificação de posições EAST",
+                    () -> assertEquals(4, pos.size(), "Erro: esperado 4 posições."),
+                    // R0: (5, 5) -> Posição inicial
+                    () -> assertEquals(5, pos.get(0).getRow(), "R0 deve ser 5 (Linha constante)"),
+                    () -> assertEquals(5, pos.get(0).getColumn(), "C0 deve ser 5"),
+                    // R3: (5, 8) -> Última posição
+                    () -> assertEquals(5, pos.get(3).getRow(), "R3 deve ser 5 (Linha constante)"),
+                    () -> assertEquals(8, pos.get(3).getColumn(), "C3 deve ser 8")
+            );
+        }
 
-    /**
-     * constructor5() – Test invalid orientation (default case → exception).
-     */
-    @Test
-    public void constructor5() {
-        // Use a "fake" illegal value if Compass is enum: simulate by null
-        assertThrows(IllegalArgumentException.class,
-                () -> new Frigate(null, new Position(0, 0)),
-                "Error: expected IllegalArgumentException for invalid bearing but none thrown");
+        /**
+         * Caminho 5/5: Test WEST orientation. Cobre o case EAST/WEST. (Horizontal)
+         * Esperado: (5,5), (5,6), (5,7), (5,8). Note que a linha (row) é constante.
+         */
+        @Test
+        @DisplayName("Frigate5(): Criação orientada a WEST (Verifica posições horizontais - caminho 5/5)")
+        void frigate5() {
+            frigate = new Frigate(Compass.WEST, START_POS);
+
+            List<IPosition> pos = frigate.getPositions();
+            assertAll("Verificação de posições WEST",
+                    () -> assertEquals(4, pos.size(), "Erro: esperado 4 posições."),
+                    // R0: (5, 5) -> Posição inicial
+                    () -> assertEquals(5, pos.get(0).getRow(), "R0 deve ser 5 (Linha constante)"),
+                    () -> assertEquals(5, pos.get(0).getColumn(), "C0 deve ser 5"),
+                    // R3: (5, 8) -> Última posição
+                    () -> assertEquals(5, pos.get(3).getRow(), "R3 deve ser 5 (Linha constante)"),
+                    () -> assertEquals(8, pos.get(3).getColumn(), "C3 deve ser 8")
+            );
+        }
+
+        /**
+         * Caminho Adicional (Default): Test invalid orientation (default case -> exception).
+         * Cobre a condição `default` do switch.
+         */
+        @Test
+        @DisplayName("Frigate6(): Deve lançar IllegalArgumentException para Compass.UNKNOWN (caminho default)")
+        void frigate6() {
+            assertThrows(IllegalArgumentException.class,
+                    () -> new Frigate(Compass.UNKNOWN, START_POS),
+                    "Caminho Default: Esperava IllegalArgumentException para Compass.UNKNOWN.");
+        }
     }
 
     // =========================================================
-    // =================== TESTS FOR getSize() =================
+    // =================== TESTS FOR getSize() (CC = 1) ========
     // =========================================================
 
     /**
-     * getSize() – CC = 1
+     * getSize() – CC = 1 (Caminho Único)
      */
     @Test
+    @DisplayName("getSize(): Deve retornar 4 (tamanho fixo)")
     public void getSize() {
+        frigate = new Frigate(Compass.NORTH, START_POS);
         assertEquals(4, frigate.getSize(),
-                "Error: expected size 4 but got " + frigate.getSize());
+                "Erro: esperado size 4 mas obteve " + frigate.getSize());
     }
 }
