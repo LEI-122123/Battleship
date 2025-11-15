@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IFleet</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">iscteiul.ista.battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: IFleet (iscteiul.ista.battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IFleet</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * **Interface que define o contrato para uma Frota (Fleet) de navios** no jogo Batalha Naval.
+&nbsp; * Responsável por gerir a coleção de navios, controlar o seu estado e fornecer
+&nbsp; * métodos para consulta.
+&nbsp; *
+&nbsp; * @author [Seu Nome/Nome da Equipe, se aplicável]
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;package iscteiul.ista.battleship;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface IFleet {
+&nbsp;    /** O tamanho máximo do tabuleiro (ex: 10x10). */
+<b class="fc">&nbsp;    Integer BOARD_SIZE = 10;</b>
+&nbsp;    /** O número máximo de navios permitido na frota. */
+<b class="fc">&nbsp;    Integer FLEET_SIZE = 10;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém a lista de todos os navios pertencentes a esta frota.**
+&nbsp;     *
+&nbsp;     * @return Uma lista ({@code List&lt;IShip&gt;}) contendo todos os navios.
+&nbsp;     */
+&nbsp;    List&lt;IShip&gt; getShips();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Adiciona um navio à frota.**
+&nbsp;     * Deve incluir a lógica de verificação de limites do tabuleiro e colisão.
+&nbsp;     *
+&nbsp;     * @param s O navio ({@code IShip}) a ser adicionado.
+&nbsp;     * @return {@code true} se o navio foi adicionado com sucesso; {@code false} caso contrário.
+&nbsp;     */
+&nbsp;    boolean addShip(IShip s);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém uma lista de navios que pertencem a uma determinada categoria (tipo).**
+&nbsp;     *
+&nbsp;     * @param category A categoria (nome) dos navios a procurar (ex: &quot;Nau&quot;, &quot;Caravela&quot;).
+&nbsp;     * @return Uma lista ({@code List&lt;IShip&gt;}) contendo apenas os navios da categoria especificada.
+&nbsp;     */
+&nbsp;    List&lt;IShip&gt; getShipsLike(String category);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Obtém uma lista de navios que ainda estão a flutuar (não afundados).**
+&nbsp;     *
+&nbsp;     * @return Uma lista ({@code List&lt;IShip&gt;}) contendo apenas os navios que ainda não foram afundados.
+&nbsp;     */
+&nbsp;    List&lt;IShip&gt; getFloatingShips();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Verifica se existe um navio numa posição específica do tabuleiro.**
+&nbsp;     *
+&nbsp;     * @param pos A posição ({@code IPosition}) a ser verificada.
+&nbsp;     * @return O navio ({@code IShip}) que ocupa essa posição, ou {@code null} se não houver navio.
+&nbsp;     */
+&nbsp;    IShip shipAt(IPosition pos);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * **Imprime o estado completo da frota no console.**
+&nbsp;     * Inclui detalhes sobre todos os navios, os que flutuam e os agrupados por categoria.
+&nbsp;     */
+&nbsp;    void printStatus();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-15 17:10</div>
+</div>
+</body>
+</html>
