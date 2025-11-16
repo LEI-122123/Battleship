@@ -14,6 +14,8 @@ class CarrackTest {
         Position p = new Position(2, 3);
         Carrack n = new Carrack(NORTH, p);
 
+        assertThrows(IllegalArgumentException.class,() -> new Carrack(UNKNOWN, p));
+
         assertEquals("Nau", n.getCategory(), "Categoria deve ser 'Nau'");
         assertEquals(NORTH, n.getBearing(), "A orientação deve ser a fornecida");
         assertEquals(p, n.getPosition(), "A posição de referência (do Ship) deve ser a fornecida");
