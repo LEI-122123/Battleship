@@ -61,10 +61,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88,9%
+    100%
   </span>
   <span class="absValue">
-    (8/9)
+    (9/9)
   </span>
 </td>
 </tr>
@@ -107,10 +107,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    90%
+    100%
   </span>
   <span class="absValue">
-    (9/10)
+    (10/10)
   </span>
 </td>
 </tr>
@@ -147,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public Carrack(Compass bearing, IPosition pos) throws IllegalArgumentException {
 <b class="fc">&nbsp;        super(Carrack.NAME, bearing, pos);</b>
-<b class="pc">&nbsp;        switch (bearing) {</b>
+<b class="fc">&nbsp;        switch (bearing) {</b>
 &nbsp;            case NORTH:
 &nbsp;            case SOUTH:
 &nbsp;                // Posiciona na vertical, ocupando 3 células (r, r+1, r+2)
@@ -161,7 +161,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                    getPositions().add(new Position(pos.getRow(), pos.getColumn() + c));</b>
 &nbsp;                break;
 &nbsp;            default:
-<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;ERROR! invalid bearing for the carrack&quot;);</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(&quot;ERROR! invalid bearing for the carrack&quot;);</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -199,7 +199,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-11-09 17:56</div>
+    <div style="float:right;">generated on 2025-11-16 12:01</div>
 </div>
 </body>
 </html>

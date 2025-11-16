@@ -9,10 +9,24 @@ import static iscteiul.ista.battleship.Compass.*;
 class CaravelTest {
 
     @Test
+    void checkAssertions() {
+        boolean enabled = false;
+        assert enabled = true;
+
+        System.out.println("Assertions enabled? " + enabled);
+    }
+
+    @Test
     @DisplayName("Construtor define categoria, orientação e posição de referência")
     void construtor_defineCategoriaOrientacaoEPosicaoReferencia() {
         Position p = new Position(3, 4);
         Caravel c = new Caravel(WEST, p);
+
+        NullPointerException ex1 = assertThrows(NullPointerException.class,() -> new Caravel(null, p));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,() -> new Caravel(UNKNOWN, p));
+
+        assertEquals("ERROR! invalid bearing for the caravel", ex1.getMessage());
+        assertEquals("ERROR! invalid bearing for the caravel", ex2.getMessage());
 
         assertEquals("Caravela", c.getCategory(), "Categoria deve ser 'Caravela'");
         assertEquals(WEST, c.getBearing(), "A orientação deve ser a fornecida");
